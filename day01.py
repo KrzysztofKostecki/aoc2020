@@ -1,4 +1,4 @@
-from typing import Tuple, FrozenSet, List
+from typing import Tuple, Set
 
 """
 --- Part One ---
@@ -19,28 +19,20 @@ In this list, the two entries that sum to 2020 are 1721 and 299. Multiplying the
 Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
 """
 
-
-def hashEntries(entries: List[int]) -> FrozenSet[int]:
-    return [entry for entry in entries]
-
-
-entries = List[int]
+entries = Set[int]
 with open("./inputs/day01.txt", "r") as f:
-    entries = [int(entry) for entry in f.readlines()]
-
-entriesSet = hashEntries(entries)
+    entries = set([int(entry) for entry in f.readlines()])
 
 
 def sum_to(number: int) -> Tuple[int, int]:
     for e in entries:
-        if number - e in entriesSet:
+        if number - e in entries:
             return e, number - e
     raise Exception(f"Couldn't find two numbers that sum up to {number}")
 
 
 a, b = sum_to(2020)
 print("Result part 1: {}".format(a * b))
-
 
 """
 --- Part Two ---
