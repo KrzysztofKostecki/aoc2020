@@ -34,7 +34,7 @@ def check_pass(*args) -> int:
 
 
 with open("./inputs/day02.txt", "r") as f:
-    print(f"Result part 1 {reduce(add, [check_pass(*line.split(":")) for line in f.readlines()])}")
+    print(reduce(add, [check_pass(*line.split(":")) for line in f.readlines()]))
 
 
 """
@@ -65,4 +65,4 @@ def check_pass_2(*args) -> int:
 
 
 with open("./inputs/day02.txt", "r") as f:
-    print(f"Result part 2 {reduce(add, [check_pass_2(*line.split(":")) for line in f.readlines()])}")
+    print(reduce(add, [check_pass_2(*line.split(":")) for line in f.readlines()]))

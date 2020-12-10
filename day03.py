@@ -27,7 +27,7 @@ def check_slope(planet_map: List[str], r: int, d: int) -> int:
 with open("./inputs/day03.txt", "r") as f:
     planet_map = [row.strip() for row in f.readlines()]
     x: int = 0
-    print(f"Result part 1 {check_slope(planet_map, r=3, d=1)}")
+    print(check_slope(planet_map, r=3, d=1))
 
 """
 --- Part Two ---
@@ -48,6 +48,4 @@ with open("./inputs/day03.txt", "r") as f:
     x: int = 0
     inputs = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 
-    print(
-        f"Result part 2 {reduce(mul, [check_slope(planet_map, r=i[0], d=i[1]) for i in inputs])}"
-    )
+    print(reduce(mul, [check_slope(planet_map, r=i[0], d=i[1]) for i in inputs]))

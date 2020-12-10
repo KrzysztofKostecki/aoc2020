@@ -32,7 +32,7 @@ def sum_to(number: int) -> Tuple[int, int]:
 
 
 a, b = sum_to(2020)
-print("Result part 1: {}".format(a * b))
+print(a * b)
 
 """
 --- Part Two ---
@@ -46,7 +46,7 @@ In your expense report, what is the product of the three entries that sum to 202
 for e in entries:
     try:
         x, y = sum_to(2020 - e)
-        print("Result part 2: {}".format(e * x * y))
+        print(e * x * y)
         break
     except Exception as error:
         pass
