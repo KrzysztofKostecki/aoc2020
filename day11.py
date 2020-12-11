@@ -117,10 +117,10 @@ def count_adjacent(x: int, y: int, distance: int, seats_map: List[List[str]]) ->
     return taken_seats
 
 
-def gol(seats_map: List[List[str]], part: int) -> Tuple[List[List[str]], int]:
+def gol(
+    seats_map: List[List[str]], distance: int, min_occupied: int
+) -> Tuple[List[List[str]], int]:
     X, Y = (len(seats_map), len(seats_map[0]))
-    distance = 1 if part == 1 else max(X, Y)
-    min_occupied = 4 if part == 1 else 5
     output_seats = deepcopy(seats_map)
     changes: int = 0
     for idx in range(X):
@@ -152,10 +152,9 @@ with open("./inputs/day11.txt", "r") as f:
     orig_map = [list(row.strip()) for row in f.readlines()]
 
 
-part: int = 1
-seats_map, changes = gol(orig_map, part)
+seats_map, changes = gol(orig_map, 1, 4)
 while changes != 0:
-    seats_map, changes = gol(seats_map, part)
+    seats_map, changes = gol(seats_map, 1, 4)
 print(count_occupied(seats_map))
 
 """
@@ -266,8 +265,7 @@ Again, at this point, people stop shifting around and the seating area reaches e
 Given the new visibility method and the rule change for occupied seats becoming empty, once equilibrium is reached, how many seats end up occupied?
 """
 
-part = 2
-seats_map, changes = gol(orig_map, part)
+seats_map, changes = gol(orig_map, max(len(seats_map), len(seats_map[0])), 5)
 while changes != 0:
-    seats_map, changes = gol(seats_map, part)
+    seats_map, changes = gol(seats_map, max(len(seats_map), len(seats_map[0])), 5)
 print(count_occupied(seats_map))
