@@ -108,38 +108,24 @@ Figure out where the navigation instructions actually lead. What is the Manhatta
 
 """
 
-
-def move_by_degrees(
-    position: Tuple[float, float], degrees: float
-) -> Tuple[float, float]:
-    angle = (math.degrees(math.atan2(position[0], position[1])) + degrees) % 360.0
-    radius = math.sqrt((position[0]) ** 2 + (position[1]) ** 2)
-    radians = math.radians(angle)
-    return (radius * math.sin(radians), radius * math.cos(radians))
-
-
 def move_waypoint(instructions: List[Tuple[str, int]]) -> int:
-    position = (0.0, 0.0)
-    directions = {"N": (0, 1), "E": (1, 0), "S": (0, -1), "W": (-1, 0)}
-    waypoint_position = (10.0, 1.0)  # relative to the ship
-    rotations = {"L": -1.0, "R": 1.0}
+    position = 0 + 0j
+    directions = {"N": 1j, "E": 1, "S": -1j, "W": -1}
+    waypoint_position = 10+1j
+    rotations = {"L": 1.0, "R": -1.0}
     for instruction in instructions:
         if instruction[0] == "F":
-            position = (
-                position[0] + instruction[1] * waypoint_position[0],
-                position[1] + instruction[1] * waypoint_position[1],
-            )
+            position += instruction[1] * waypoint_position
         elif instruction[0] in directions:
-            waypoint_position = (
-                waypoint_position[0] + instruction[1] * directions[instruction[0]][0],
-                waypoint_position[1] + instruction[1] * directions[instruction[0]][1],
-            )
+            waypoint_position += instruction[1] * directions[instruction[0]]
         elif instruction[0] in rotations:
-            waypoint_position = move_by_degrees(
-                waypoint_position, rotations[instruction[0]] * instruction[1]
-            )
+            waypoint_position *= pow(rotations[instruction[0]]*1j, instruction[1]//90)
 
-    return round(abs(position[0]) + abs(position[1]))
-
+    return round(abs(position.real) + abs(position.imag))
 
 print(move_waypoint(instructions))
+
+
+
+
+    
