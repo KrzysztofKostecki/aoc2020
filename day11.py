@@ -2,6 +2,7 @@ from typing import Tuple, List, Dict, Set
 from functools import reduce
 from operator import add
 from copy import deepcopy
+import os
 
 """
 --- Part One ---
@@ -154,6 +155,7 @@ with open("./inputs/day11.txt", "r") as f:
 
 seats_map, changes = gol(orig_map, 1, 4)
 while changes != 0:
+    os.system('clear')
     seats_map, changes = gol(seats_map, 1, 4)
 print(count_occupied(seats_map))
 
