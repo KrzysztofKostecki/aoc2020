@@ -49,11 +49,28 @@ Execute the initialization program. What is the sum of all values left in memory
 import re
 import itertools
 
+
 def bitfield(n):
     return bin(n)[2:]
 
+
 def apply_mask(mask, value):
-    return int("".join(list(reversed([m_bit if m_bit != 'X' else v_bit if v_bit else '0' for m_bit, v_bit in itertools.zip_longest(reversed(mask), reversed(bitfield(value)))]))), 2)
+    return int(
+        "".join(
+            list(
+                reversed(
+                    [
+                        m_bit if m_bit != "X" else v_bit if v_bit else "0"
+                        for m_bit, v_bit in itertools.zip_longest(
+                            reversed(mask), reversed(bitfield(value))
+                        )
+                    ]
+                )
+            )
+        ),
+        2,
+    )
+
 
 with open("./inputs/day14.txt", "r") as f:
     memory = defaultdict(lambda: 0)
@@ -117,8 +134,19 @@ The entire 36-bit address space still begins initialized to the value 0 at every
 Execute the initialization program using an emulator for a version 2 decoder chip. What is the sum of all values left in memory after it completes?
 """
 
+
 def apply_mask_2(mask, value):
-    return list(reversed([m_bit if m_bit != '0' else v_bit if v_bit else '0' for m_bit, v_bit in itertools.zip_longest(reversed(mask), reversed(bitfield(value)))]))
+    return list(
+        reversed(
+            [
+                m_bit if m_bit != "0" else v_bit if v_bit else "0"
+                for m_bit, v_bit in itertools.zip_longest(
+                    reversed(mask), reversed(bitfield(value))
+                )
+            ]
+        )
+    )
+
 
 with open("./inputs/day14.txt", "r") as f:
     memory = defaultdict(lambda: 0)
@@ -132,12 +160,24 @@ with open("./inputs/day14.txt", "r") as f:
             if address:
                 address_mask = apply_mask_2(curr_mask, int(address.group(0)))
                 idxs = [idx for idx, v in enumerate(curr_mask) if v == "X"]
-                for i in range(0, 2**len(idxs)):
-                    mask2 = list([b for b, c in reversed(list(itertools.zip_longest(reversed(bin(i)[2:]), range(0,len(idxs)), fillvalue='0')))])
+                for i in range(0, 2 ** len(idxs)):
+                    mask2 = list(
+                        [
+                            b
+                            for b, c in reversed(
+                                list(
+                                    itertools.zip_longest(
+                                        reversed(bin(i)[2:]),
+                                        range(0, len(idxs)),
+                                        fillvalue="0",
+                                    )
+                                )
+                            )
+                        ]
+                    )
                     dd = iter(mask2)
                     for idx in idxs:
                         address_mask[idx] = next(dd)
-                    memory[int("".join(address_mask),2)]=int(value)
+                    memory[int("".join(address_mask), 2)] = int(value)
 
     print(reduce(add, [a for a in memory.values()]))
-
